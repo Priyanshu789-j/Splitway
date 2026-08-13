@@ -61,7 +61,7 @@ The application also generates settlement transactions showing who should pay wh
 
 ## 📂 Project Structure
 
-```text
+
 Splitway/
 │
 ├── index.html
