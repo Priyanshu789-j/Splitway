@@ -111,7 +111,7 @@ Possible future improvements include:
 
 ## 🌐 Live Demo
 
-Coming soon.
+ https://priyanshu789-j.github.io/Splitway/
 
 ## 👨‍💻 Author
 
