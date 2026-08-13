@@ -1,0 +1,1209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SplitWay</title>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Outfit:wght@300;400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #130800;
+      --card: #ffffff;
+      --ink: #00938c;
+      --muted: rgba(255, 255, 255, 0.75);
+      --accent: #e8572a;
+      --accent2: #d52b00;
+      --accent3: #f0b429;
+      --border: rgba(255, 255, 255, 0.75);
+      --shadow: 0 4px 24px rgba(26, 22, 18, 0.08);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-image: url(bg.avif);
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+
+    }
+
+    /* Noise texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: rgba(255, 255, 255, 0.1);
+      /* darker glass */
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+
+      color: white;
+      padding: 28px 40px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      position: relative;
+      overflow: hidden;
+
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+    }
+
+
+    header::after {
+      content: 'SPLIT';
+      position: absolute;
+      right: -10px;
+      top: -20px;
+      font-family: 'Playfair Display', serif;
+      font-size: 120px;
+      font-weight: 900;
+      color: rgba(255, 255, 255, 0.03);
+      letter-spacing: -4px;
+      pointer-events: none;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .pj-logo {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #e8572a 0%, #ff8c42 50%, #c94010 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 18px;
+      color: #fff;
+      letter-spacing: -1px;
+      box-shadow: 0 4px 16px rgba(232, 87, 42, 0.5), 0 0 0 2px rgba(255, 255, 255, 0.1);
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .pj-logo::before {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      border-radius: 11px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      pointer-events: none;
+
+    }
+
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 34px;
+      font-weight: 900;
+      letter-spacing: 1px;
+
+      background: linear-gradient(45deg, #ff7a18, #ffd200);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+      transition: 0.3s ease;
+    }
+
+    .creator-credit {
+      font-size: 14px;
+      letter-spacing: 1px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .creator-credit span {
+      color: #ffb347;
+      font-weight: 500;
+    }
+
+    /* ── LAYOUT ── */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 24px;
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 380px 1fr;
+      gap: 28px;
+      align-items: start;
+    }
+
+    @media (max-width: 800px) {
+
+      /* Header */
+      header {
+        padding: 18px 16px;
+      }
+
+      .header-left {
+        gap: 10px;
+      }
+
+      .pj-logo {
+        width: 42px;
+        height: 42px;
+      }
+
+      .logo {
+        font-size: 24px;
+      }
+
+      .creator-credit {
+        font-size: 11px;
+      }
+
+
+      /* Main layout */
+      .container {
+        grid-template-columns: 1fr;
+        padding: 20px 14px;
+        gap: 18px;
+      }
+
+
+      /* Cards */
+      .card {
+        width: 100%;
+        padding: 16px;
+      }
+
+
+      /* Add person row */
+      .add-row {
+        width: 100%;
+      }
+
+      .add-row input {
+        min-width: 0;
+      }
+
+
+      /* Buttons */
+      .btn {
+        font-size: 14px;
+      }
+
+
+      /* Expense section */
+      .expense-item {
+        gap: 10px;
+      }
+
+      .expense-name {
+        font-size: 14px;
+      }
+
+      .expense-meta {
+        font-size: 13px;
+      }
+
+      .expense-amount {
+        font-size: 20px;
+      }
+
+
+      /* Balance section */
+      .balance-grid {
+        padding: 12px 16px;
+      }
+
+      .balance-row {
+        gap: 8px;
+      }
+
+      .balance-name {
+        font-size: 14px;
+      }
+
+      .balance-share {
+        font-size: 13px;
+      }
+
+      .balance-amount {
+        font-size: 16px;
+      }
+
+      .balance-status {
+        font-size: 10px;
+        padding: 3px 6px;
+      }
+
+
+      /* Summary */
+      .summary-total {
+        padding: 16px;
+      }
+
+      .total-label {
+        font-size: 13px;
+      }
+
+      .total-amount {
+        font-size: 24px;
+      }
+
+
+      /* Settlements */
+      .settlements {
+        padding: 12px 16px;
+      }
+    }
+
+    /* ── CARDS ── */
+    .card {
+      background: rgba(0, 0, 0, 0.25);
+      /* transparent glass */
+
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+
+      border-radius: 16px;
+
+      border: 1px solid rgba(255, 255, 255, 0.2);
+
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+
+      padding: 20px;
+    }
+
+    .card-header {
+      font-weight: 600;
+      font-size: 18px;
+
+      color: white;
+
+      margin-bottom: 12px;
+    }
+
+    .card-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .card-body {
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      transition: 0.3s ease;
+
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    /* ── INPUTS ── */
+    .field {
+      margin-bottom: 14px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    input,
+    select {
+      background: rgba(255, 255, 255, 0.15);
+
+      border: 1px solid rgba(255, 255, 255, 0.3);
+
+      color: white;
+
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+
+      border-radius: 10px;
+
+      padding: 10px;
+    }
+
+    input::placeholder {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+
+      border: 1px solid #ffb347;
+
+      box-shadow: 0 0 10px rgba(255, 179, 71, 0.5);
+    }
+
+    input[type="checkbox"] {
+      accent-color: #ff4b2b;
+    }
+
+    #split-checkboxes {
+      background: rgba(0, 0, 0, 0.3) !important;
+      /* dark glass */
+      border-radius: 10px;
+      padding: 6px;
+    }
+
+
+    /* ── PEOPLE TAGS ── */
+    .people-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .tag {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+
+      background: rgba(255, 255, 255, 0.08);
+      /* darker glass */
+      border: 1px solid rgba(255, 255, 255, 0.25);
+
+      border-radius: 50px;
+      padding: 6px 12px 6px 10px;
+
+      font-size: 16px;
+      font-weight: 500;
+
+      color: rgba(255, 255, 255, 0.85);
+
+      backdrop-filter: blur(6px);
+
+      transition: all 0.25s ease;
+
+      animation: popIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .tag:hover {
+      transform: translateY(-2px);
+      border-color: #ff7a18;
+    }
+
+    .tag.active {
+      background: linear-gradient(135deg, #ff7a18, #ff4b2b);
+
+      color: white;
+      border: none;
+
+      box-shadow: 0 0 10px rgba(255, 122, 24, 0.5);
+    }
+
+    @keyframes popIn {
+      from {
+        transform: scale(0.7);
+        opacity: 0;
+      }
+
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .tag-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+
+      flex-shrink: 0;
+
+      box-shadow: 0 0 6px rgba(0, 0, 0, 0.4);
+    }
+
+    .tag-remove {
+      background: none;
+      border: none;
+      cursor: pointer;
+
+      color: rgba(255, 255, 255, 0.7);
+
+      font-size: 16px;
+      line-height: 1;
+
+      margin-left: 4px;
+
+      transition: all 0.2s ease;
+    }
+
+    .tag-remove:hover {
+      color: #ff4b2b;
+      transform: scale(1.2);
+    }
+
+    /* ── ADD ROW ── */
+    .add-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .add-row input {
+      flex: 1;
+    }
+
+    .btn {
+      padding: 11px 18px;
+      border-radius: 10px;
+      border: none;
+      font-family: 'Outfit', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+      white-space: nowrap;
+    }
+
+    .btn:active {
+      transform: scale(0.96);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #ff7a18, #ff4b2b);
+
+      color: white;
+      border: none;
+
+      padding: 10px 16px;
+      border-radius: 10px;
+
+      font-weight: 600;
+
+      cursor: pointer;
+
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+
+      box-shadow: 0 6px 18px rgba(255, 75, 43, 0.4);
+
+      background: linear-gradient(135deg, #ff8c42, #ff3b1f);
+
+    }
+
+    .btn-primary:active {
+      transform: scale(0.95);
+    }
+
+
+    .btn-ghost {
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
+
+      color: white;
+      border: none;
+
+      padding: 6px 12px;
+      border-radius: 8px;
+
+      font-size: 16px;
+      font-weight: 500;
+
+      cursor: pointer;
+
+      transition: 0.3s ease;
+    }
+
+    .btn-ghost:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(255, 75, 43, 0.4);
+    }
+
+    .btn-ghost:active {
+      transform: scale(0.95);
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #ff7a18, #ff4b2b);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(61, 140, 111, 0.3);
+      width: 100%;
+      padding: 13px;
+      font-size: 16px;
+      border-radius: 12px;
+      margin-top: 6px;
+    }
+
+    .btn-success:hover {
+      background: #2f7055;
+    }
+
+    /* ── EXPENSE LIST ── */
+    .expense-list {
+      list-style: none;
+    }
+
+    .expense-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      padding: 10px 0;
+
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .expense-item:last-child {
+      border-bottom: none;
+    }
+
+    .expense-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .expense-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .expense-name {
+      font-weight: 600;
+      font-size: 16px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .expense-meta {
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 16px;
+    }
+
+    .expense-amount {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 40px;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .expense-del {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--border);
+      font-size: 18px;
+      transition: color 0.15s;
+      padding: 4px;
+      flex-shrink: 0;
+    }
+
+    .expense-del:hover {
+      color: var(--accent);
+    }
+
+    /* ── SUMMARY ── */
+    .summary-total {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .total-label {
+      font-size: 16px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    .total-amount {
+      color: #ff7a18;
+      /* warm orange */
+      font-weight: 700;
+      font-size: 28px;
+    }
+
+    .total-currency {
+      color: var(--accent);
+    }
+
+    /* ── BALANCE TABLE ── */
+    .balance-grid {
+      padding: 16px 24px;
+    }
+
+    .balance-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .balance-row:last-child {
+      border-bottom: none;
+    }
+
+    .balance-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 14px;
+      color: #fff;
+      flex-shrink: 0;
+    }
+
+    .balance-name {
+      flex: 1;
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    .balance-share {
+      font-size: 16px;
+      color: var(--muted);
+    }
+
+    .balance-amount {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 20px;
+      text-align: right;
+    }
+
+    .balance-amount.owes {
+      color: #ff0d0d;
+    }
+
+    .balance-amount.gets {
+      color: #00ff9c;
+
+    }
+
+    .balance-amount.even {
+      color: var(--muted);
+    }
+
+    .balance-status {
+      font-size: 13px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 50px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      flex-shrink: 0;
+    }
+
+    .status-owes {
+      background: rgba(31, 28, 28, 0.15);
+      color: #f10808;
+    }
+
+    .status-gets {
+      background: rgba(0, 255, 156, 0.15);
+      color: #00ff9c;
+    }
+
+    .status-even {
+      background: rgba(255, 165, 0, 0.15);
+      color: #47ff63;
+    }
+
+    /* ── SETTLEMENTS ── */
+    .settlements {
+      padding: 16px 24px;
+    }
+
+    .settlement-item {
+      background: rgba(255, 255, 255, 0.15);
+
+      border: 1px solid rgba(255, 255, 255, 0.25);
+
+      backdrop-filter: blur(10px);
+
+      color: white;
+    }
+
+    .settlement-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .s-name {
+      font-weight: 600;
+    }
+
+    .s-arrow {
+      color: var(--muted);
+    }
+
+    .s-amount {
+      margin-left: auto;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      color: var(--accent2);
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+    }
+
+    .empty-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    .empty-text {
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    /* ── CATEGORY COLORS ── */
+    .cat-food {
+      background: rgba(240, 180, 41, 0.15);
+    }
+
+    .cat-travel {
+      background: rgba(61, 140, 111, 0.15);
+    }
+
+    .cat-stay {
+      background: rgba(100, 130, 255, 0.15);
+    }
+
+    .cat-fun {
+      background: rgba(232, 87, 42, 0.15);
+    }
+
+    .cat-other {
+      background: rgba(26, 22, 18, 0.08);
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 50px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-left: 6px;
+    }
+
+    .pill-each {
+      background: rgba(232, 87, 42, 0.1);
+      color: var(--accent);
+    }
+
+    /* ── SECTION LABEL ── */
+    .section-lbl {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      padding: 14px 24px 6px;
+      border-top: 1px solid var(--border);
+    }
+
+    .right-col {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+  </style>
+</head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<body>
+
+  <header>
+    <div class="header-left">
+      <div class="pj-logo">𝑺𝑾 </div>
+      <div class="logo">Split<span>Way</span></div>
+    </div>
+    <div class="creator-credit">A Priyanshu Joshi Creation</div>
+  </header>
+
+  <div class="container">
+
+    <!-- LEFT: Input Panel -->
+    <div>
+      <!-- People -->
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-header">
+          <div class="card-title">👥 People in Group</div>
+          <div style="font-size:12px;color:var(--muted)" id="people-count">0 people</div>
+        </div>
+        <div class="card-body">
+          <div class="people-row" id="people-tags"></div>
+          <div class="add-row">
+            <input type="text" id="person-input" placeholder="Enter name..." maxlength="20" />
+            <button class="btn btn-primary" onclick="addPerson()">+ Add</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Expense -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">💸 Add Expense</div>
+        </div>
+        <div class="card-body">
+          <div class="field">
+            <label>Description</label>
+            <input type="text" id="exp-desc" placeholder="e.g. Dinner at restaurant" />
+          </div>
+          <div class="field">
+            <label>Amount (₹)</label>
+            <input type="number" id="exp-amount" placeholder="0.00" min="0" step="0.01" />
+          </div>
+          <div class="field">
+            <label>Paid by</label>
+            <select id="exp-payer">
+              <option value="">— Select who paid —</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Category</label>
+            <select id="exp-cat">
+              <option value="food">🍕 Food & Drinks</option>
+              <option value="travel">🚗 Transport</option>
+              <option value="stay">🏠 Accommodation</option>
+              <option value="fun">🎉 Entertainment</option>
+              <option value="other">📦 Other</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Split between</label>
+            <div id="split-checkboxes" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px;"></div>
+          </div>
+          <button class="btn btn-success" onclick="addExpense()">✓ Add &amp; Split</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Summary Panel -->
+    <div class="right-col">
+
+      <!-- Expense List -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">🧾 Expenses</div>
+          <button class="btn btn-ghost" style="font-size:12px;padding:6px 12px" onclick="clearAll()">Clear all</button>
+        </div>
+        <div id="expense-list-wrap">
+          <div class="empty" id="empty-expenses">
+            <div class="empty-icon">📋</div>
+            <div class="empty-text">No expenses yet.<br>Add people and start tracking!</div>
+          </div>
+          <ul class="expense-list" id="expense-list" style="padding:0 24px"></ul>
+        </div>
+      </div>
+
+      <!-- Balances -->
+      <div class="card" id="summary-card" style="display:none">
+        <div class="summary-total">
+          <div class="total-label">Total Spent</div>
+          <div class="total-amount"><span class="total-currency">₹</span><span id="total-amount">0</span></div>
+        </div>
+
+        <div class="section-lbl">Balances</div>
+        <div class="balance-grid" id="balance-grid"></div>
+
+        <div class="section-lbl">Settle Up 💳</div>
+        <div class="settlements" id="settlements"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const COLORS = ['#e8572a', '#3d8c6f', '#7b5ea7', '#2980b9', '#d35400', '#27ae60', '#8e44ad', '#16a085', '#c0392b', '#2c3e50'];
+    const CAT_ICONS = { food: '🍕', travel: '🚗', stay: '🏠', fun: '🎉', other: '📦' };
+
+    let people = JSON.parse(localStorage.getItem('splitway_people')) || []; // { name, color }
+    let expenses = JSON.parse(localStorage.getItem('splitway_expenses')) || []; // { desc, amount, payer, cat, split: [names] }
+
+    // ── PEOPLE ──
+    function addPerson() {
+      const inp = document.getElementById('person-input');
+      const name = inp.value.trim();
+      if (!name) return;
+      if (people.find(p => p.name.toLowerCase() === name.toLowerCase())) {
+        alert('This person is already in the group!'); return;
+      }
+      const color = COLORS[people.length % COLORS.length];
+      people.push({ name, color });
+      localStorage.setItem('splitway_people', JSON.stringify(people));
+      inp.value = '';
+      renderPeople();
+      renderPayerSelect();
+      renderSplitCheckboxes();
+    }
+
+    function removePerson(name) {
+      people = people.filter(p => p.name !== name);
+      expenses = expenses.filter(e => e.payer !== name);
+      expenses = expenses.map(e => ({ ...e, split: e.split.filter(s => s !== name) }))
+        .filter(e => e.split.length > 0);
+      localStorage.setItem('splitway_people', JSON.stringify(people));
+      localStorage.setItem('splitway_expenses', JSON.stringify(expenses));
+      renderPeople();
+      renderPayerSelect();
+      renderSplitCheckboxes();
+      renderExpenses();
+      renderSummary();
+    }
+
+    function renderPeople() {
+      const cont = document.getElementById('people-tags');
+      document.getElementById('people-count').textContent = people.length + ' people';
+      cont.innerHTML = people.map(p => `
+      <div class="tag">
+        <div class="tag-dot" style="background:${p.color}"></div>
+        ${p.name}
+        <button class="tag-remove" onclick="removePerson('${p.name}')" title="Remove">×</button>
+      </div>`).join('');
+    }
+
+    function renderPayerSelect() {
+      const sel = document.getElementById('exp-payer');
+      const cur = sel.value;
+      sel.innerHTML = '<option value="">— Select who paid —</option>' +
+        people.map(p => `<option value="${p.name}" ${cur === p.name ? 'selected' : ''}>${p.name}</option>`).join('');
+    }
+
+    function renderSplitCheckboxes() {
+      const cont = document.getElementById('split-checkboxes');
+      if (people.length === 0) { cont.innerHTML = '<span style="font-size:13px;color:var(--muted)">Add people first</span>'; return; }
+      cont.innerHTML = people.map(p => `
+      <label style="display:flex;align-items:center;gap:6px;font-size:13px;font-weight:500;cursor:pointer;background:var(--bg);padding:6px 10px;border-radius:8px;border:1.5px solid var(--border);user-select:none">
+        <input type="checkbox" id="chk-${p.name}" value="${p.name}" checked style="accent-color:${p.color};width:14px;height:14px">
+        <span style="color:${p.color}">●</span> ${p.name}
+      </label>`).join('');
+    }
+
+    // ── EXPENSES ──
+    function addExpense() {
+      const desc = document.getElementById('exp-desc').value.trim();
+      const amount = parseFloat(document.getElementById('exp-amount').value);
+      const payer = document.getElementById('exp-payer').value;
+      const cat = document.getElementById('exp-cat').value;
+      const split = people.map(p => document.getElementById('chk-' + p.name))
+        .filter(c => c && c.checked).map(c => c.value);
+
+      if (!desc) { alert('Please enter a description.'); return; }
+      if (!amount || amount <= 0) { alert('Please enter a valid amount.'); return; }
+      if (!payer) { alert('Please select who paid.'); return; }
+      if (split.length === 0) { alert('Select at least one person to split with.'); return; }
+
+      expenses.push({ id: Date.now(), desc, amount, payer, cat, split });
+      document.getElementById('exp-desc').value = '';
+      localStorage.setItem('splitway_expenses', JSON.stringify(expenses));
+      document.getElementById('exp-amount').value = '';
+      renderExpenses();
+      renderSummary();
+    }
+
+    function deleteExpense(id) {
+      expenses = expenses.filter(e => e.id !== id);
+      localStorage.setItem('splitway_expenses', JSON.stringify(expenses));
+      renderExpenses();
+      renderSummary();
+    }
+
+    function clearAll() {
+      if (expenses.length === 0) return;
+
+      if (confirm('Clear all expenses?')) {
+        expenses = [];
+
+        localStorage.setItem('splitway_expenses', JSON.stringify(expenses));
+
+        renderExpenses();
+        renderSummary();
+      }
+    }
+
+
+    function renderExpenses() {
+      const list = document.getElementById('expense-list');
+      const empty = document.getElementById('empty-expenses');
+      if (expenses.length === 0) { list.innerHTML = ''; empty.style.display = ''; return; }
+      empty.style.display = 'none';
+      const perItem = e => (e.amount / e.split.length).toFixed(2);
+      list.innerHTML = expenses.map(e => {
+        const color = (people.find(p => p.name === e.payer) || {}).color || '#888';
+        return `
+      <li class="expense-item">
+        <div class="expense-icon cat-${e.cat}">${CAT_ICONS[e.cat]}</div>
+        <div class="expense-info">
+          <div class="expense-name">${e.desc}</div>
+          <div class="expense-meta">
+            Paid by <strong style="color:${color}">${e.payer}</strong> · 
+            split ${e.split.length} ways
+            <span class="pill pill-each">₹${perItem(e)} each</span>
+          </div>
+        </div>
+        <div class="expense-amount">₹${e.amount.toFixed(2)}</div>
+        <button class="expense-del" onclick="deleteExpense(${e.id})" title="Delete">🗑</button>
+      </li>`;
+      }).join('');
+    }
+
+    // ── SUMMARY ──
+    function renderSummary() {
+      const card = document.getElementById('summary-card');
+      if (expenses.length === 0 || people.length === 0) { card.style.display = 'none'; return; }
+      card.style.display = '';
+
+      // Compute net balance per person
+      const balance = {};
+      people.forEach(p => balance[p.name] = 0);
+
+      expenses.forEach(e => {
+        const share = e.amount / e.split.length;
+        e.split.forEach(name => {
+          if (!balance[name]) balance[name] = 0;
+          balance[name] -= share; // owes share
+        });
+        if (balance[e.payer] !== undefined) balance[e.payer] += e.amount; // paid full
+        else balance[e.payer] = e.amount;
+      });
+
+      const total = expenses.reduce((s, e) => s + e.amount, 0);
+      document.getElementById('total-amount').textContent = total.toFixed(2);
+
+      // Render balance rows
+      const bg = document.getElementById('balance-grid');
+      bg.innerHTML = people.map(p => {
+        const net = balance[p.name] || 0;
+        const paid = expenses.filter(e => e.payer === p.name).reduce((s, e) => s + e.amount, 0);
+        const share = expenses.reduce((s, e) => s + (e.split.includes(p.name) ? e.amount / e.split.length : 0), 0);
+        let cls, lbl;
+        if (Math.abs(net) < 0.01) { cls = 'even'; lbl = 'Settled'; }
+        else if (net > 0) { cls = 'gets'; lbl = `Gets ₹${net.toFixed(2)}`; }
+        else { cls = 'owes'; lbl = `Owes ₹${Math.abs(net).toFixed(2)}`; }
+        return `
+      <div class="balance-row">
+        <div class="balance-avatar" style="background:${p.color}">${p.name[0].toUpperCase()}</div>
+        <div>
+          <div class="balance-name">${p.name}</div>
+          <div class="balance-share">Paid ₹${paid.toFixed(2)} · Share ₹${share.toFixed(2)}</div>
+        </div>
+        <div>
+          <div class="balance-amount ${cls}">${Math.abs(net) < 0.01 ? '—' : (net > 0 ? '+' : '−') + '₹' + Math.abs(net).toFixed(2)}</div>
+        </div>
+        <span class="balance-status status-${cls}">${lbl}</span>
+      </div>`;
+      }).join('');
+
+      // Compute settlements (who pays whom)
+      const creditors = [], debtors = [];
+      people.forEach(p => {
+        const net = balance[p.name] || 0;
+        if (net > 0.005) creditors.push({ name: p.name, amount: net, color: p.color });
+        if (net < -0.005) debtors.push({ name: p.name, amount: -net, color: p.color });
+      });
+      creditors.sort((a, b) => b.amount - a.amount);
+      debtors.sort((a, b) => b.amount - a.amount);
+
+      const txns = [];
+      let ci = 0, di = 0;
+      while (ci < creditors.length && di < debtors.length) {
+        const c = creditors[ci], d = debtors[di];
+        const amt = Math.min(c.amount, d.amount);
+        txns.push({ from: d, to: c, amount: amt });
+        c.amount -= amt; d.amount -= amt;
+        if (c.amount < 0.005) ci++;
+        if (d.amount < 0.005) di++;
+      }
+
+      const sDiv = document.getElementById('settlements');
+      if (txns.length === 0) {
+        sDiv.innerHTML = '<div style="text-align:center;padding:20px;color:var(--accent2);font-weight:600">🎉 All settled up!</div>';
+      } else {
+        sDiv.innerHTML = txns.map(t => `
+        <div class="settlement-item">
+          <div class="balance-avatar" style="background:${t.from.color};width:28px;height:28px;font-size:12px">${t.from.name[0].toUpperCase()}</div>
+          <span class="s-name">${t.from.name}</span>
+          <span class="s-arrow">→</span>
+          <div class="balance-avatar" style="background:${t.to.color};width:28px;height:28px;font-size:12px">${t.to.name[0].toUpperCase()}</div>
+          <span class="s-name">${t.to.name}</span>
+          <span class="s-amount">₹${t.amount.toFixed(2)}</span>
+        </div>`).join('');
+      }
+    }
+
+    // Enter key support
+    document.getElementById('person-input').addEventListener('keydown', e => { if (e.key === 'Enter') addPerson(); });
+
+    // Init
+    renderPeople();
+    renderPayerSelect();
+    renderSplitCheckboxes();
+    renderExpenses();
+    renderSummary();
+  </script>
+</body>
+
+</html>
